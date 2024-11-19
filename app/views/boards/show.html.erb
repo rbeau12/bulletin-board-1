@@ -1,0 +1,165 @@
+<html>
+  <head>
+    <title>Target: Bulletin Board Bootstrap</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="csrf-param" content="authenticity_token" />
+<meta name="csrf-token" content="q0WRuWqcKCwk1KxMx68LCB46kNAmV37PlhJIEAfOm13z7kEC-znbsHwssQzI8X443fab6ITo-ug8It8Mnf5ZKw" />
+    <meta name="csp-nonce" />
+
+    <link rel="stylesheet" href="/assets/application-e0cf9d8fcb18bf7f909d8d91a5e78499f82ac29523d475bf3a9ab265d5e2b451.css" data-turbo-track="reload" />
+    <script type="importmap" data-turbo-track="reload">{
+  "imports": {
+    "application": "/assets/application-37f365cbecf1fa2810a8303f4b6571676fa1f9c56c248528bc14ddb857531b95.js",
+    "@hotwired/turbo-rails": "/assets/turbo.min-f309baafa3ae5ad6ccee3e7362118b87678d792db8e8ab466c4fa284dd3a4700.js",
+    "@hotwired/stimulus": "/assets/stimulus.min-d03cf1dff41d6c5698ec2c5d6a501615a7a33754dbeef8d1edd31c928d17c652.js",
+    "@hotwired/stimulus-loading": "/assets/stimulus-loading-1fc59770fb1654500044afd3f5f6d7d00800e5be36746d55b94a2963a7a228aa.js",
+    "controllers/application": "/assets/controllers/application-368d98631bccbf2349e0d4f8269afb3fe9625118341966de054759d96ea86c7e.js",
+    "controllers/hello_controller": "/assets/controllers/hello_controller-549135e8e7c683a538c3d6d517339ba470fcfb79d62f738a0a089ba41851a554.js",
+    "controllers": "/assets/controllers/index-2db729dddcc5b979110e98de4b6720f83f91a123172e87281d5a58410fc43806.js"
+  }
+}</script>
+<link rel="modulepreload" href="/assets/application-37f365cbecf1fa2810a8303f4b6571676fa1f9c56c248528bc14ddb857531b95.js">
+<link rel="modulepreload" href="/assets/turbo.min-f309baafa3ae5ad6ccee3e7362118b87678d792db8e8ab466c4fa284dd3a4700.js">
+<link rel="modulepreload" href="/assets/stimulus.min-d03cf1dff41d6c5698ec2c5d6a501615a7a33754dbeef8d1edd31c928d17c652.js">
+<link rel="modulepreload" href="/assets/stimulus-loading-1fc59770fb1654500044afd3f5f6d7d00800e5be36746d55b94a2963a7a228aa.js">
+<script type="esms-options">{"nonce":null}</script>
+<script src="/assets/es-module-shims.min-d89e73202ec09dede55fb74115af9c5f9f2bb965433de1c2446e1faa6dac2470.js" async="async" data-turbo-track="reload"></script>
+<script type="module">import "application"</script>
+
+    <!-- Make it responsive -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Connect Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css">
+
+    <!-- Connect Bootstrap JavaScript and its dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Connect Font Awesome -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/js/all.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha384-GNFwBvfVxBkLMJpYMOABq3c+d3KnQxudP/mGPkzpZSTYykLBNsZEnG2D9G/X/+7D" crossorigin="anonymous" async></script>
+  </head>
+ <body>
+    <nav class="navbar navbar-expand-lg bg-light mb-5">
+      <div class="container">
+        <a class="navbar-brand" href="/">Bulletin Board</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="/boards">All boards</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container">
+
+
+      <div class="row mb-3">
+  <div class="col-md-12 d-flex align-items-center">
+    <h1>
+      <%=@the_board.name%>
+    </h1>
+
+    <div class="ms-auto">
+      <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#newPostModal">
+        Add new post
+      </button>
+    </div>
+  </div>
+</div>
+<ul class="nav nav-tabs nav-fill mb-3" id="myTab" role="tablist">
+  <li class="nav-item" role="presentation">
+    <button class="nav-link active" id="active-tab" data-bs-toggle="tab" data-bs-target="#active-tab-pane" type="button" role="tab" aria-controls="active-tab-pane" aria-selected="true">Active posts (<%=@the_board.posts.count%>)</button>
+  </li>
+  <li class="nav-item" role="presentation">
+    <button class="nav-link" id="expired-tab" data-bs-toggle="tab" data-bs-target="#expired-tab-pane" type="button" role="tab" aria-controls="expired-tab-pane" aria-selected="false">Expired posts (<%=@the_board.posts.count%>)</button>
+  </li>
+</ul>
+
+<div class="tab-content" id="myTabContent">
+  <div class="tab-pane fade show active" id="active-tab-pane" role="tabpanel" aria-labelledby="active-tab" tabindex="0">
+    <div class="row row-cols-1 row-cols-md-4 g-4">
+        <div class="col">
+        <%@the_board.posts.each do |the_post|%>
+          <div class="card">
+            <div class="card-header">
+              <h1 class="h6 my-1"><%=the_post.title %> </h1>
+
+              <div>
+                <%=the_post.expires_on %>
+              </div>
+            </div>
+
+            <div class="card-body">
+              <p><%=the_post.body %></p>
+            </div>
+
+            <div class="card-footer">
+              Posted on <%=the_post.created_at%>
+            </div>
+          </div>
+          <%end%>
+        </div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="newPostModal" tabindex="-1" aria-labelledby="newPostModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="newPostModalLabel">New post</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form action="/insert_post" method="post">
+          <div class="mb-3">
+            <label for="title_box" class="form-label">
+              Title
+            </label>
+
+            <input type="text" id="title_box" name="query_title" class="form-control">
+          </div>
+
+          <div class="mb-3">
+            <label for="body_box" class="form-label">
+              Body
+            </label>
+
+            <textarea id="body_box" name="query_body" rows="3" class="form-control" required></textarea>
+          </div>
+
+          <div class="mb-3">
+            <label for="expires_on_box" class="form-label">
+              Expires on
+            </label>
+
+            <input type="date" id="expires_on_box" name="query_expires_on" class="form-control">
+          </div>
+
+          <input type="hidden" id="board_id_box" name="query_board_id" value="<%=@the_board.id%>">
+
+          <div class="d-grid">
+            <button class="btn btn-primary">
+              Add post
+            </button>
+          </div>
+
+        </form>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+    </div>
+  </body>
+</html>
